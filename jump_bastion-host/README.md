@@ -20,7 +20,7 @@ Select the bastion host instance. Actions/Security/Modify IAM role and create a 
 ### Configure SSH keys
 > Note: EC2 Instance connect is a better apporach than this. However instance connect as of today works only on Amazon Linux and ubuntu. 
 SSH access to all other hosts should go through Bastion. The private key to login to other hosts should be kept only on Bastion. While creating the instances use this key name bastion-to-other-hosts-key.
-- ```wget https://raw.githubusercontent.com/vivechanchanny/wordpress-serverlesss/main/utils/create-ssh-key.sh -O create-ssh-key.sh```
+- ```wget https://raw.githubusercontent.com/vivechanchanny/poc/main/utils/create-ssh-key.sh -O create-ssh-key.sh```
 - ```bash create-ssh-key.sh```
 - For backup purpose download bastion-to-other-hosts-key.pem from bastion to your laptop and safestore it securely.
 
