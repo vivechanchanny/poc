@@ -12,7 +12,7 @@ This page contains instructions to create a bastion host in AWS.
 
 # Create Bastion instance
 ## Create AWS Linux2 Instance using this as cloud init
-- ```https://raw.githubusercontent.com/vivechanchanny/wordpress-serverlesss/main/bastion/cloud-init.sh```
+- ```https://raw.githubusercontent.com/vivechanchanny/poc/main/jump_bastion-host/cloud-init.sh```
 > If you forgot to create the instance with user-data you can wget this file and execute it
 ## Configure Bastion
 #### Assign role to bastion host
@@ -27,7 +27,7 @@ SSH access to all other hosts should go through Bastion. The private key to logi
 ### Create security group and attach to bastion instance
 In future when new instances are created allow network access to it from this security group "outgoing-from-bastion-secgrp".
 - Login to bastion as ec2-user
-- ```wget https://raw.githubusercontent.com/vivechanchanny/wordpress-serverlesss/main/bastion/create_and_assign_secgrp.sh -O create_and_assign_secgrp.sh```
+- ```https://raw.githubusercontent.com/vivechanchanny/poc/main/jump_bastion-host/create_and_assign_secgrp.sh -O create_and_assign_secgrp.sh```
 - Create a security group by name outgoing-from-bastion-secgrp and attach it to bastion instance
   - ```bash create_and_assign_secgrp.sh outgoing-from-bastion-secgrp```
 
@@ -39,13 +39,13 @@ It is recommended to reserve an elastic IP in AWS and assign it to bastion host.
  I run haproxy load balancer on bastion insted of using AWS LOAD BALANCER 
   But below instructions can be run on any other instance that you plan to run the load balancer on.
 - create and assign a security group 
-  - ```wget https://raw.githubusercontent.com/vivechanchanny/wordpress-serverlesss/main/bastion/loadbalancer-cf.yml -O loadbalancer-cf.yml```
+  - ```wget https://raw.githubusercontent.com/vivechanchanny/poc/main/jump_bastion-host/loadbalancer-cf.yml -O loadbalancer-cf.yml```
   - ```aws cloudformation create-stack --stack-name loadbalancer-stack --template-body file://loadbalancer-cf.yml  --parameters ParameterKey=MySecurityGroup,ParameterValue=outgoing-from-loadbalancer-secgrp```
-  - ```wget https://raw.githubusercontent.com/vivechanchanny/wordpress-serverlesss/main/bastion/assign_secgrp.sh -O assign_secgrp.sh```
+  - ```wget https://raw.githubusercontent.com/vivechanchanny/poc/main/jump_bastion-host/assign_secgrp.sh -O assign_secgrp.sh```
   - ```bash assign_secgrp.sh outgoing-from-loadbalancer-secgrp```
   - ```sleep 5 && aws cloudformation delete-stack --stack-name loadbalancer-stack```
 - Install haproxy
-  - ```sudo wget https://raw.githubusercontent.com/vivechanchanny/wordpress-serverlesss/main/bastion/install_haproxy.sh -O install_haproxy.sh```
+  - ```sudo wget https://raw.githubusercontent.com/vivechanchanny/poc/main/jump_bastion-host/install_haproxy.sh -O install_haproxy.sh```
   - ```bash install_haproxy.sh```
 - update the ```/etc/haproxy/haproxy.cfg``` by changing all occurrences of apacheserver.local with with the ```private IP``` address of the lamp instance.
 - ```systemctl restart haproxy```
